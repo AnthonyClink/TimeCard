@@ -2,44 +2,58 @@ package com.clinkworks.timecard.util;
 
 import java.util.Date;
 
+import org.joda.time.DateTime;
+import org.junit.Before;
+
 import com.clinkworks.timecard.config.TestCaseConfigBase;
 import com.clinkworks.timecard.service.EntryService;
 import com.clinkworks.timecard.service.TimeService;
-import com.clinkworks.timecard.services.MockTimeService;
+import com.clinkworks.timecard.services.TestingClockService;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 
+/**
+ * Note: kidna smells like you are backing yourself into a bad design desision.
+ * this is assuming that every implementation is going to use the mock time service.
+ * Note, im relying on the fact that the MockService is a singleton and is injected into
+ * the test. This is also assuming no desendant injectors.
+ * 
+ * @author AnthonyJCLink
+ *
+ */
 public class TestCaseBase{
 	private final Injector injector;
 	
-	private MockTimeService timeService;
+	private TestingClockService timeService;
 	
 	public TestCaseBase(){
 		injector = Guice.createInjector(new TestCaseConfigBase());
+		timeService = injector.getInstance(TestingClockService.class);
 	}
 	
 	public TestCaseBase(Module... modules){
 		injector = Guice.createInjector(modules);
+		timeService = injector.getInstance(TestingClockService.class);
 	}
 	
 	protected final TimeService getTimeService(){
-		if(timeService == null){
-			timeService = injector.getInstance(MockTimeService.class);
-		}
 		return timeService;
 	}
 	
-	protected final void toggleTimeMockOff(){
-		((MockTimeService)getTimeService()).switchMockTimeOff();
-	}
-
-	protected final void toggleTimeMockOn(){
-		((MockTimeService)getTimeService()).switchMockTimeOn();
+	protected final void setSystemTime(DateTime systemTime){
+		timeService.setSystemTime(systemTime);
 	}
 	
-	protected final void setSystemTime(Date systemTime){
-		((MockTimeService)getTimeService()).setSystemTime(systemTime);
+	protected final TestingClockService getTestingClockService(){
+		return timeService;
+	}
+	
+	@Before
+	public void doSetup(){
+		TestingClockService service = getTestingClockService();
+		service.resetClockToJanuaryFirstTwoThousand();
+		service.useRealTime();
 	}
 	
 	protected final EntryService getEntryService(){

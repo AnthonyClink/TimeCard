@@ -1,11 +1,10 @@
 package com.clinkworks.timecard.service;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
-import com.clinkworks.timecard.datatypes.Entry;
+import com.clinkworks.timecard.domain.Entry;
 import com.clinkworks.timecard.util.TimecardComponentFactory;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 public class EntryService {
 
@@ -24,7 +23,7 @@ public class EntryService {
 		return TCCF.createNewEntry(timeService.getSystemTime());
 	}
 	
-	public Entry createEntry(Date timeStamp) {
+	public Entry createEntry(DateTime timeStamp) {
 		return TCCF.createNewEntry(timeStamp);
 	}
 

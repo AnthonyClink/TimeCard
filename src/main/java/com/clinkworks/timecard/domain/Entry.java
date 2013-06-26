@@ -1,20 +1,20 @@
-package com.clinkworks.timecard.datatypes;
+package com.clinkworks.timecard.domain;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 import com.clinkworks.timecard.service.TimeService;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 public class Entry {
-	private final Date timeStamp;
+	private final DateTime timeStamp;
 	
 	@Inject
-	public Entry(@Assisted Date timeStamp){
+	public Entry(@Assisted DateTime timeStamp){
 		this.timeStamp = timeStamp;
 	}
 	
-	public Date getTimeStamp(){
+	public DateTime getTimeStamp(){
 		return timeStamp;
 	}
 	

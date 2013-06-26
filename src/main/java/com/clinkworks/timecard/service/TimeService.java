@@ -1,6 +1,7 @@
 package com.clinkworks.timecard.service;
 
-import java.util.Date;
+
+import org.joda.time.DateTime;
 
 import com.google.inject.Singleton;
 
@@ -11,7 +12,7 @@ public class TimeService {
 	
 	}
 	
-	public Date getSystemTime(){
-		return new Date();
+	public DateTime getSystemTime(){
+		return new DateTime();
 	}
 }

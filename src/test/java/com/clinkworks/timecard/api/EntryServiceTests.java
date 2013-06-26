@@ -1,11 +1,11 @@
 package com.clinkworks.timecard.api;
 
-import java.util.Date;
-
+import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.clinkworks.timecard.datatypes.Entry;
+import com.clinkworks.timecard.domain.Entry;
 import com.clinkworks.timecard.util.TestCaseBase;
 
 
@@ -20,16 +20,19 @@ public class EntryServiceTests extends TestCaseBase{
 	
 	@Test
 	public void testEntryContainsSystemTimestamp(){
-		this.toggleTimeMockOn();
-		try{
-			Date timeStamp = getTimeService().getSystemTime();
-			
-			Entry entry = getEntryService().createEntry();
-			
-			Assert.assertEquals(timeStamp, entry.getTimeStamp());
-		}finally{
-			this.toggleTimeMockOff();
-		}		
+		
+		DateTime initalTime = getTestingClockService().useTestTime().getSystemTime();
+		
+		Entry entry = getEntryService().createEntry();
+		
+		Assert.assertEquals(initalTime, entry.getTimeStamp());
+		
+		DateTime timeStampTomorrow = getTestingClockService().addDay();
+		
+		Entry entryTomorrow = getEntryService().createEntry();
+		
+		Assert.assertEquals(timeStampTomorrow, entryTomorrow.getTimeStamp());
+
 	}
-	
+
 }

@@ -2,10 +2,12 @@ package com.clinkworks.timecard.util;
 
 import java.util.Date;
 
-import com.clinkworks.timecard.datatypes.Entry;
+import org.joda.time.DateTime;
+
+import com.clinkworks.timecard.domain.Entry;
 
 public interface TimecardComponentFactory {
 
-	public Entry createNewEntry(Date timeStamp);
+	public Entry createNewEntry(DateTime dateTime);
 
 }
