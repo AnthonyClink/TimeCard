@@ -4,14 +4,14 @@ import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.clinkworks.timecard.service.TimeService;
+import com.clinkworks.timecard.service.SystemTimeService;
 import com.clinkworks.timecard.util.TestCaseBase;
 
 public class TimeServiceTests extends TestCaseBase{
 	@Test
 	public void testTimeServiceTimeStamp() throws InterruptedException{
 
-		TimeService timeService = getTimeService();
+		SystemTimeService timeService = getTimeService();
 		
 		DateTime realTimeTimeStamp = new DateTime();
 		

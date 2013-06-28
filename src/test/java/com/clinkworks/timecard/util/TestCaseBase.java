@@ -7,7 +7,7 @@ import org.junit.Before;
 
 import com.clinkworks.timecard.config.TestCaseConfigBase;
 import com.clinkworks.timecard.service.EntryService;
-import com.clinkworks.timecard.service.TimeService;
+import com.clinkworks.timecard.service.SystemTimeService;
 import com.clinkworks.timecard.services.TestingClockService;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -37,12 +37,12 @@ public class TestCaseBase{
 		timeService = injector.getInstance(TestingClockService.class);
 	}
 	
-	protected final TimeService getTimeService(){
+	protected final SystemTimeService getTimeService(){
 		return timeService;
 	}
 	
 	protected final void setSystemTime(DateTime systemTime){
-		timeService.setSystemTime(systemTime);
+		timeService.setTestSystemTime(systemTime);
 	}
 	
 	protected final TestingClockService getTestingClockService(){

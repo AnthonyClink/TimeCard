@@ -12,10 +12,10 @@ public class EntryService {
 	@Inject
 	private TimecardComponentFactory TCCF;
 	
-	private TimeService timeService;
+	private SystemTimeService timeService;
 	
 	@Inject
-	public EntryService(TimeService timeService){
+	public EntryService(SystemTimeService timeService){
 		this.timeService = timeService;
 	}
 	

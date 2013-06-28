@@ -19,7 +19,7 @@ public class TestingClockServiceTests extends TestCaseBase{
 		//set the internal test date
 		DateTime januaryfirstTwoThousand = new DateTime(2000, 1, 1, 0, 0, 0);
 		
-		clockService.setSystemTime(januaryfirstTwoThousand);
+		clockService.setTestSystemTime(januaryfirstTwoThousand);
 		
 		//using real time should return the system time.
 		clockService.useRealTime();
@@ -44,7 +44,7 @@ public class TestingClockServiceTests extends TestCaseBase{
 
 		DateTime januaryfirstTwoThousand = new DateTime(2000, 1, 1, 0, 0, 0);
 		
-		clockService.setSystemTime(januaryfirstTwoThousand);
+		clockService.setTestSystemTime(januaryfirstTwoThousand);
 		
 		clockService.useTestTime();
 			//Year, Month, Day, Hour, Minute, Second, Millisecond
@@ -85,7 +85,7 @@ public class TestingClockServiceTests extends TestCaseBase{
 
 		List<DateTime> unitValidationWithCountParamOfTwo = createListFromData(addUnitWithParamSetToTwo);
 		
-		clockService.setSystemTime(januaryfirstTwoThousand);
+		clockService.setTestSystemTime(januaryfirstTwoThousand);
 		
 		validateDate(unitValidationWithCountParamOfTwo.get(0), clockService.getSystemTime());
 		validateDate(unitValidationWithCountParamOfTwo.get(1), clockService.addmilliseconds(countParam));

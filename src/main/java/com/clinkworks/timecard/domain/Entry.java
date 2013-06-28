@@ -2,7 +2,7 @@ package com.clinkworks.timecard.domain;
 
 import org.joda.time.DateTime;
 
-import com.clinkworks.timecard.service.TimeService;
+import com.clinkworks.timecard.service.SystemTimeService;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

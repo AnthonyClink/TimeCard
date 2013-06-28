@@ -1,11 +1,8 @@
 package com.clinkworks.timecard.services;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import org.joda.time.DateTime;
 
-import com.clinkworks.timecard.service.TimeService;
+import com.clinkworks.timecard.service.SystemTimeService;
 import com.google.inject.Singleton;
 
 /**
@@ -15,7 +12,7 @@ import com.google.inject.Singleton;
  *
  */
 @Singleton
-public final class TestingClockService extends TimeService{
+public final class TestingClockService extends SystemTimeService{
 	
 	public static final DateTime JANUARY_FIRST_TWO_THOUSAND = new DateTime(2000, 1, 1, 0, 0, 0, 0);
 	
@@ -42,7 +39,7 @@ public final class TestingClockService extends TimeService{
 		return this;
 	}
 	
-	public TimeService setSystemTime(DateTime date){
+	public TestingClockService setTestSystemTime(DateTime date){
 		systemDate = date;
 		return this;
 	}	
