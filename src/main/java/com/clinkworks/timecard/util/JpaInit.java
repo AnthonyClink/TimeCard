@@ -1,13 +1,12 @@
 package com.clinkworks.timecard.util;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.google.inject.persist.PersistService;
 
-public class JPAHandler {
+public class JpaInit {
 	
 	@Inject 
-    public JPAHandler(PersistService persistService) {
+    public JpaInit(PersistService persistService) {
 		persistService.start();
     } 
     

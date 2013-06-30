@@ -2,20 +2,22 @@ package com.clinkworks.timecard.services;
 
 import org.joda.time.DateTime;
 import org.jukito.JukitoRunner;
+import org.jukito.UseModules;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.clinkworks.timecard.config.TestCaseConfigBase;
 import com.clinkworks.timecard.service.SystemTimeService;
 
 @RunWith(JukitoRunner.class)
-public class SystemTimeServiceTests {
+@UseModules({ TestCaseConfigBase.class })
+public class TestTimeService {
 
 	@Test
-	public void testSystemTimeServiceGivesSystemTime() throws InterruptedException{
-		SystemTimeService systemTimeService = new SystemTimeService();
+	public void testSystemTimeServiceGivesSystemTime(SystemTimeService timeService) throws InterruptedException{
 		
-		DateTime then = systemTimeService.getSystemTime();
+		DateTime then = timeService.getSystemTime();
 		
 		Thread.sleep(1);
 		

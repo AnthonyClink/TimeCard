@@ -3,14 +3,12 @@ package com.clinkworks.timecard.config;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.clinkworks.timecard.datatypes.StringConstants;
 import com.clinkworks.timecard.web.CorsFilter;
 import com.clinkworks.timecard.web.metrics.HttpStatusCodeMetricResourceFilterFactory;
 import com.clinkworks.timecard.web.metrics.JerseyMetricsModule;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.google.inject.Scopes;
 import com.google.inject.persist.PersistFilter;
-import com.google.inject.persist.jpa.JpaPersistModule;
 import com.google.inject.servlet.ServletModule;
 import com.sun.jersey.api.core.ResourceConfig;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;

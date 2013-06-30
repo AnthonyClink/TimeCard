@@ -212,34 +212,7 @@
 					</execution>
 				</executions>
 			</plugin>
-		    <plugin>
-		        <groupId>org.apache.openjpa</groupId>
-		        <artifactId>openjpa-maven-plugin</artifactId>
-		        <version>${openjpa.version}</version>
-		        <configuration>
-		            <includes>**/entities/*.class</includes>
-		            <excludes>**/entities/XML*.class</excludes>
-		            <addDefaultConstructor>true</addDefaultConstructor>               
-		            <enforcePropertyRestrictions>true</enforcePropertyRestrictions>
-		        </configuration>
-		        <executions>
-		            <execution>
-		                <id>enhancer</id>
-		                <phase>process-classes</phase>
-		                <goals>
-		                    <goal>enhance</goal>
-		                </goals>
-		            </execution>
-		        </executions>
-		        <dependencies>
-		            <dependency>
-		                <groupId>org.apache.openjpa</groupId>
-		                <artifactId>openjpa</artifactId>
-		                <!-- set the version to be the same as the level in your runtime -->
-		                <version>${openjpa.version}</version>
-		            </dependency>
-		        </dependencies>
-		    </plugin>			
+	
 		</plugins>
 
 	</build>
