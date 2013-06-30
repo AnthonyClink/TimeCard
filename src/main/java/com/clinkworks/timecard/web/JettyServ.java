@@ -2,9 +2,6 @@ package com.clinkworks.timecard.web;
 
 import java.util.EnumSet;
 
-
-
-import org.eclipse.jetty.server.DispatcherType;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -45,7 +42,7 @@ public class JettyServ {
         handler.addServlet(new ServletHolder(new InvalidRequestServlet()), "/*");
 
         FilterHolder guiceFilter = new FilterHolder(injector.getInstance(GuiceFilter.class));
-        handler.addFilter(guiceFilter, "/*", EnumSet.allOf(DispatcherType.class));
+        handler.addFilter(guiceFilter, "/*", EnumSet.allOf(javax.servlet.DispatcherType.class));
 
         server.setHandler(handler);
         

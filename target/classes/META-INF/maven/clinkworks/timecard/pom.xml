@@ -16,7 +16,7 @@
         <jsr305.version>1.3.9</jsr305.version>
         <guice.version>3.0</guice.version>
         <openjpa.version>2.2.2</openjpa.version>
-        <jetty.version>7.6.2.v20120308</jetty.version>
+        <jetty.version>9.0.3.v20130506</jetty.version>
         <jaxb.version>2.2.6</jaxb.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdk.version>1.7</jdk.version>
