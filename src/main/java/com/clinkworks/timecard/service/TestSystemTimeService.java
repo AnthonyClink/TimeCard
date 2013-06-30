@@ -11,39 +11,39 @@ import com.google.inject.Singleton;
  *
  */
 @Singleton
-public final class TestingClockService extends SystemTimeService{
+public final class TestSystemTimeService extends SystemTimeService{
 	
 	public static final DateTime JANUARY_FIRST_TWO_THOUSAND = new DateTime(2000, 1, 1, 0, 0, 0, 0);
 	
 	private DateTime systemDate;
 	private boolean useRealTime;
 	
-	public TestingClockService(){
+	public TestSystemTimeService(){
 		systemDate = JANUARY_FIRST_TWO_THOUSAND;
-		useRealTime = false;
+		useRealTime = true;
 	}
 	
-	public final DateTime resetClockToJanuaryFirstTwoThousand(){
+	public final TestSystemTimeService resetClockToJanuaryFirstTwoThousand(){
 		systemDate = JANUARY_FIRST_TWO_THOUSAND;
-		return systemDate;
+		return this;
 	}
 	
-	public TestingClockService useRealTime(){
+	public TestSystemTimeService useRealTime(){
 		useRealTime = true;
 		return this;
 	}
 	
-	public TestingClockService setTestTimeToNow(){
+	public TestSystemTimeService setTestTimeToNow(){
 		systemDate = new DateTime();
 		return this;
 	}
 	
-	public TestingClockService useTestTime(){
+	public TestSystemTimeService useTestTime(){
 		useRealTime = false;
 		return this;
 	}
 	
-	public TestingClockService setTestSystemTime(DateTime date){
+	public TestSystemTimeService setTestSystemTime(DateTime date){
 		systemDate = date;
 		return this;
 	}	

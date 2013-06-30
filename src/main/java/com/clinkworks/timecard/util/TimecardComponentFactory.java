@@ -2,7 +2,7 @@ package com.clinkworks.timecard.util;
 
 import org.joda.time.DateTime;
 
-import com.clinkworks.timecard.domain.Entry;
+import com.clinkworks.timecard.datatypes.Entry;
 
 public interface TimecardComponentFactory {
 

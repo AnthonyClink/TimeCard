@@ -1,5 +1,5 @@
 package com.clinkworks.timecard.domain;
 
-public class Segment {
+public class TimeSegment {
 
 }

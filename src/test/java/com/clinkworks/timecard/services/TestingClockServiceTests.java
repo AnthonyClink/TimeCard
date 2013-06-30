@@ -3,19 +3,22 @@ package com.clinkworks.timecard.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jukito.JukitoRunner;
+import org.jukito.UseModules;
 import org.junit.Assert;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import com.clinkworks.timecard.service.TestingClockService;
-import com.clinkworks.timecard.util.TestCaseBase;
+import com.clinkworks.timecard.config.TestCaseConfigBase;
+import com.clinkworks.timecard.service.TestSystemTimeService;
 
-public class TestingClockServiceTests extends TestCaseBase{
+public class TestingClockServiceTests{
 	
 	@Test
 	public void testRealTimeVsNotRealTime() throws InterruptedException{
-		TestingClockService clockService = new TestingClockService();
+		TestSystemTimeService clockService = new TestSystemTimeService();
 		
 		//set the internal test date
 		DateTime januaryfirstTwoThousand = new DateTime(2000, 1, 1, 0, 0, 0);
@@ -25,15 +28,16 @@ public class TestingClockServiceTests extends TestCaseBase{
 		//using real time should return the system time.
 		clockService.useRealTime();
 		
-		DateTime realTimeTimeStamp = new DateTime();
-		
-		Thread.sleep(1);
 		
 		DateTime serviceProvidedTimeStamp = clockService.getSystemTime();
 		
-		Assert.assertTrue(realTimeTimeStamp.isBefore(serviceProvidedTimeStamp));
+		Thread.sleep(1);
 		
-		//using test time should use the internal time
+		DateTime realTimeTimeStamp = new DateTime();
+		
+		Assert.assertTrue(serviceProvidedTimeStamp.isBefore(realTimeTimeStamp));
+		Assert.assertTrue(serviceProvidedTimeStamp.isAfter(realTimeTimeStamp.plusSeconds(-2)));
+		
 		clockService.useTestTime();
 		
 		Assert.assertEquals(januaryfirstTwoThousand, clockService.getSystemTime());
@@ -41,7 +45,7 @@ public class TestingClockServiceTests extends TestCaseBase{
 	
 	@Test
 	public void testTestClockTimeManipulationFeatures(){
-		TestingClockService clockService = new TestingClockService();
+		TestSystemTimeService clockService = new TestSystemTimeService();
 
 		DateTime januaryfirstTwoThousand = new DateTime(2000, 1, 1, 0, 0, 0);
 		
@@ -69,7 +73,7 @@ public class TestingClockServiceTests extends TestCaseBase{
 			{2000, 1, 3, 2, 2, 2, 2},
 			{2000, 3, 3, 2, 2, 2, 2},
 			{2002, 3, 3, 2, 2, 2, 2}
-			};
+		};
 		
 		int countParam = 2;
 		

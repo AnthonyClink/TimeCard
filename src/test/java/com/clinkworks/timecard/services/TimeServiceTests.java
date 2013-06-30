@@ -1,17 +1,20 @@
 package com.clinkworks.timecard.services;
 
 import org.joda.time.DateTime;
+
+import org.jukito.JukitoRunner;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import com.clinkworks.timecard.service.SystemTimeService;
-import com.clinkworks.timecard.util.TestCaseBase;
 
-public class TimeServiceTests extends TestCaseBase{
+@RunWith(JukitoRunner.class)
+public class TimeServiceTests{
+
+	
 	@Test
-	public void testTimeServiceTimeStamp() throws InterruptedException{
-
-		SystemTimeService timeService = getTimeService();
+	public void testTimeServiceTimeStamp(SystemTimeService timeService) throws InterruptedException{
 		
 		DateTime realTimeTimeStamp = new DateTime();
 		

@@ -21,15 +21,13 @@ import com.yammer.metrics.core.MetricsRegistry;
 
 public class JettyServ {
 	
-	public static void main(String[] args) throws ServerFailedToStartException{
+	public static void main(String[] args) throws Exception{
         Injector injector = Guice.createInjector(new AbstractModule() {
             @Override
             protected void configure() {
-
                 install(getInjectorForModule(ConfigBase.class));
                 install(getInjectorForModule(JerseyMetricsModule.class));
 
-                bind(GuiceFilter.class);
                 bind(MetricsRegistry.class).toInstance(Metrics.defaultRegistry());
             }
         });
@@ -46,11 +44,7 @@ public class JettyServ {
 
         server.setHandler(handler);
         
-        try{
-        	server.start();
-        }catch(Exception e){
-        	throw new ServerFailedToStartException(e);
-        }
+        server.start();
         
 	}
 	
