@@ -1,7 +1,5 @@
 package com.clinkworks.timecard.util;
 
-import java.util.Date;
-
 import org.joda.time.DateTime;
 import org.junit.Before;
 
@@ -12,6 +10,7 @@ import com.clinkworks.timecard.services.TestingClockService;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.google.inject.persist.jpa.JpaPersistModule;
 
 /**
  * Note: kidna smells like you are backing yourself into a bad design desision.
@@ -24,12 +23,14 @@ import com.google.inject.Module;
  */
 public class TestCaseBase{
 	private final Injector injector;
-	
-	private TestingClockService timeService;
+	private static final String TIME_CARD_PERSIST_UNIT = "TimeSystem";
+	private final TestingClockService timeService;
 	
 	public TestCaseBase(){
-		injector = Guice.createInjector(new TestCaseConfigBase());
+		injector = Guice.createInjector(new TestCaseConfigBase(), 
+				new JpaPersistModule(TIME_CARD_PERSIST_UNIT));
 		timeService = injector.getInstance(TestingClockService.class);
+		JPAInitializer jpaInitalizer = injector.getInstance(JPAInitializer.class);
 	}
 	
 	public TestCaseBase(Module... modules){

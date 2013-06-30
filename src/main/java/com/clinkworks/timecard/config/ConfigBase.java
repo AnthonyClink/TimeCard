@@ -15,6 +15,7 @@ public class ConfigBase extends AbstractModule{
 		
 		install(factoryModuleBuilder.
 	     build(getTimecardComponentFactory()));
+		
 	}
 	
 	/**

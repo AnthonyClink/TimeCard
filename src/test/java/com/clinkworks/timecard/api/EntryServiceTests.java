@@ -1,7 +1,6 @@
 package com.clinkworks.timecard.api;
 
 import org.joda.time.DateTime;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 

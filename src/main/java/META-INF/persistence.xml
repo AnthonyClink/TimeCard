@@ -1,0 +1,17 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    version="1.0">
+    <persistence-unit name="TimeSystem" transaction-type="RESOURCE_LOCAL">
+        <properties>
+        	<property name="openjpa.jbdc.Schema" value="StoreSystem" />
+            <property name="openjpa.jdbc.SynchronizeMappings"
+                value="buildSchema"/>
+            <property name="openjpa.ConnectionURL"
+                value="jdbc:derby://localhost:1527/StoreSystem"/>
+            <property name="openjpa.ConnectionDriverName"
+                value="org.apache.derby.jdbc.ClientDriver"/>
+            <property name="openjpa.Log" 
+            	value="DefaultLevel=WARN, Tool=INFO"/>
+        </properties>
+    </persistence-unit>
+</persistence>
