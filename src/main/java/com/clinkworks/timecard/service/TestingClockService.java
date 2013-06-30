@@ -1,8 +1,7 @@
-package com.clinkworks.timecard.services;
+package com.clinkworks.timecard.service;
 
 import org.joda.time.DateTime;
 
-import com.clinkworks.timecard.service.SystemTimeService;
 import com.google.inject.Singleton;
 
 /**
@@ -31,6 +30,11 @@ public final class TestingClockService extends SystemTimeService{
 	
 	public TestingClockService useRealTime(){
 		useRealTime = true;
+		return this;
+	}
+	
+	public TestingClockService setTestTimeToNow(){
+		systemDate = new DateTime();
 		return this;
 	}
 	

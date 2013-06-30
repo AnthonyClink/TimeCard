@@ -1,7 +1,7 @@
 package com.clinkworks.timecard.config;
 
 import com.clinkworks.timecard.service.SystemTimeService;
-import com.clinkworks.timecard.services.TestingClockService;
+import com.clinkworks.timecard.service.TestingClockService;
 
 public class TestCaseConfigBase extends ConfigBase{
 	@Override

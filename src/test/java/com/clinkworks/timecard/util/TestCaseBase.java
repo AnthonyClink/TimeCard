@@ -6,7 +6,7 @@ import org.junit.Before;
 import com.clinkworks.timecard.config.TestCaseConfigBase;
 import com.clinkworks.timecard.service.EntryService;
 import com.clinkworks.timecard.service.SystemTimeService;
-import com.clinkworks.timecard.services.TestingClockService;
+import com.clinkworks.timecard.service.TestingClockService;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;

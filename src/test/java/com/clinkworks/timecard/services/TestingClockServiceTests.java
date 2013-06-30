@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
+import com.clinkworks.timecard.service.TestingClockService;
 import com.clinkworks.timecard.util.TestCaseBase;
 
 public class TestingClockServiceTests extends TestCaseBase{
