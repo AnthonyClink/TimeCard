@@ -73,9 +73,13 @@ public class TestEntryServiceIntegration {
 			
 			timeService.resetClockToJanuaryFirstTwoThousand();
 			
-			List<Entry> queriedEntries = entryService.getEntriesBetween(startTime, endTime);
+			List<Entry> queriedEntries = Lists.newArrayList(entryService.getEntriesBetween(startTime, endTime));
+			
 			
 			assertEquals(2, queriedEntries.size());
+			
+			assertEquals(entry1.getId(), queriedEntries.get(0).getId());
+			assertEquals(entry2.getId(), queriedEntries.get(1).getId());
 			
 			
 		}finally{
@@ -128,7 +132,7 @@ public class TestEntryServiceIntegration {
 		
 		queriedEntries = entryService.getEntriesBetween(start, end);
 		
-		assertEquals(0, queriedEntries);
+		assertEquals(0, queriedEntries.size());
 			
 	} 
 	
