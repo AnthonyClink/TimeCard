@@ -2,7 +2,7 @@ package com.clinkworks.timecard.datatypes;
 
 public enum StringConstants {
 	
-	TIMECARD_DEFAULT_PERSIST_UNIT("TimecardSystem");
+	TIMECARD_DEFAULT_PERSIST_UNIT("Timecard");
 
 	private final String value;
 	

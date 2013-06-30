@@ -1,12 +1,8 @@
 package com.clinkworks.timecard.config;
 
-import clinkworks.timecard.persistence.datastores.EntryDataStore;
-
 import com.clinkworks.timecard.util.TimecardComponentFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import com.yammer.metrics.Metrics;
-import com.yammer.metrics.core.MetricsRegistry;
 
 public class ConfigBase extends AbstractModule{
 	

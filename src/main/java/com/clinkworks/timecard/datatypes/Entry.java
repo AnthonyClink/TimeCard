@@ -1,17 +1,17 @@
 package com.clinkworks.timecard.datatypes;
 
+import java.sql.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.openjpa.persistence.Persistent;
 import org.joda.time.DateTime;
-
-import clinkworks.timecard.persistence.IEntity;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -19,26 +19,32 @@ import com.google.inject.assistedinject.Assisted;
 @Entity
 @Table(name="EntryTable")
 @NamedQuery(name="Entry.findAll", query="SELECT Entry FROM Entry") 
-public class Entry implements IEntity<Long>{
+public class Entry{
 	
-	@Id
-	@SequenceGenerator(name = "ENTRY_ID_GENERATOR", sequenceName = "SEQ_ENTRY")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ENTRY_ID_GENERATOR")	
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY, generator="ENTRY_SEQ")
 	private Long id;
 	
+	/**
+	 * this is a hack till I figure out how to handle joda datetime correctly, or learn to make a custom
+	 * mapper
+	 */
+	@Transient
+	private DateTime systemTimeStamp;
+	
 	@Persistent
-	private DateTime timeStamp;
+	private Date timeStamp;
 	
 	@Inject
 	public Entry(@Assisted DateTime timeStamp){
-		this.timeStamp = timeStamp;
+		this.systemTimeStamp = timeStamp;
+		this.timeStamp = new Date(timeStamp.getMillis());
 	}
 	
 	public DateTime getTimeStamp(){
-		return timeStamp;
+		return systemTimeStamp;
 	}
 	
-	@Override
 	public Long getId(){
 		return id;
 	}
