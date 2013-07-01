@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.TemporalType;
 
 import org.joda.time.DateTime;
@@ -61,6 +62,18 @@ public class EntryService{
 	@Transactional
 	public void deleteEntries(List<Entry> entries){
 		for(Entry entry : entries){
+			em.remove(entry);
+		}
+	}
+	
+	/**
+	 * deletes the entry with the specified id.
+	 * @param id
+	 */
+	@Transactional
+	public void deleteEntryById(Long id){
+		Entry entry = em.find(Entry.class, id);
+		if(entry != null){
 			em.remove(entry);
 		}
 	}

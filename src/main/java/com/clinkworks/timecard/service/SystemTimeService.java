@@ -8,10 +8,6 @@ import com.google.inject.Singleton;
 @Singleton
 public class SystemTimeService {
 	
-	public SystemTimeService(){
-	
-	}
-	
 	public DateTime getSystemTime(){
 		return new DateTime();
 	}

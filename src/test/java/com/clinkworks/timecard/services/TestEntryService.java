@@ -54,6 +54,7 @@ public class TestEntryService{
 	
 	@Test
 	public void entriesCanCompareThemselves(EntryService entryService, TestSystemTimeService timeService){
+		
 		DateTime morning = timeService.resetClockToJanuaryFirstTwoThousand().useTestTime().getSystemTime();
 		
 		DateTime noon = morning.plusHours(12);
@@ -72,6 +73,13 @@ public class TestEntryService{
 		
 		assertTrue(morningEntry.isBefore(noonEntry));
 		assertTrue(morningEntry.isBefore(nightEntry));
+		
+		DateTime newMorning = timeService.resetClockToJanuaryFirstTwoThousand().getSystemTime();//gets a new time reference so object equality
+		                                                  //isn't an issue.
+		
+		assertEquals(-1, morning.compareTo(night));
+		assertEquals(0, morning.compareTo(newMorning));
+		assertEquals(1, noon.compareTo(morning));
 		
 	}
 	

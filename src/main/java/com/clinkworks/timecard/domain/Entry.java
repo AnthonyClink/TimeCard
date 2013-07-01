@@ -26,11 +26,19 @@ import com.google.inject.assistedinject.Assisted;
 @Entity
 @Table(name="EntryTable")
 @NamedQueries({
-    @NamedQuery(name="Entry.findAll",
-                query="SELECT e FROM Entry e"),
-    @NamedQuery(name="Entry.findAllBetween",
-    			query="SELECT e FROM Entry e " +
-    					"WHERE e.timeStamp BETWEEN :start AND :end")
+    @NamedQuery(
+    	name="Entry.findAll",
+    	query="SELECT e FROM Entry e"
+    ),
+    @NamedQuery(
+    	name="Entry.findAllBetween",
+    	query="SELECT e FROM Entry e " +
+    		"WHERE e.timeStamp BETWEEN :start AND :end"
+    ),
+    @NamedQuery(
+    	name="Entry.deleteById", 
+    	query="DELETE FROM Entry e WHERE e.id = :ID"
+    )
 }) 
 public class Entry implements ReadableInstant{
     @Id

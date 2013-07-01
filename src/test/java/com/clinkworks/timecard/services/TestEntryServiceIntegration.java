@@ -1,6 +1,5 @@
 package com.clinkworks.timecard.services;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,14 +52,13 @@ public class TestEntryServiceIntegration {
 	@Test
 	public void testEntryServiceCanQueryDateRange(EntityManager entityManager, EntryService entryService, TestSystemTimeService timeService){
 		
-		timeService.resetClockToJanuaryFirstTwoThousand().useTestTime();
+		DateTime startTime = timeService.resetClockToJanuaryFirstTwoThousand().useTestTime().getSystemTime();
+		DateTime endTime = startTime.plusDays(1);
+		
 		List<Entry> entriesToCleanup = new ArrayList<Entry>();
 		
 		try{
 			//want to give a buffer time to make query by range work easier.
-			DateTime startTime = timeService.resetClockToJanuaryFirstTwoThousand().useTestTime().getSystemTime();
-			DateTime endTime = startTime.plusDays(1);
-			
 			Entry entry1 = entryService.createEntry();
 			timeService.addHour();
 			Entry entry2 = entryService.createEntry();
@@ -70,8 +68,6 @@ public class TestEntryServiceIntegration {
 			entriesToCleanup.add(entry1);
 			entriesToCleanup.add(entry2);
 			entriesToCleanup.add(entry3);
-			
-			timeService.resetClockToJanuaryFirstTwoThousand();
 			
 			List<Entry> queriedEntries = Lists.newArrayList(entryService.getEntriesBetween(startTime, endTime));
 			
@@ -93,7 +89,7 @@ public class TestEntryServiceIntegration {
 	}
 	
 	@Test
-	public void testEntryCanBeDeleted(EntryService entryService, EntityManager entityManager){
+	public void testEntryCanBeDeleted(EntryService entryService, EntityManager entityManager) throws InterruptedException{
 
 		Entry entry = entryService.createEntry();
 		
@@ -102,6 +98,18 @@ public class TestEntryServiceIntegration {
 		Entry nullEntry = entryService.getEntryById(entry.getId());
 		
 		assertNull(nullEntry);
+		
+		Entry newEntry = entryService.createEntry();
+		
+		Long id = newEntry.getId();
+		
+		assertNotNull(newEntry);
+		
+		entryService.deleteEntryById(id);
+		
+		Entry newNullEntry = entryService.getEntryById(id);
+		
+		assertNull(newNullEntry);
 		
 	}
 	
