@@ -29,7 +29,6 @@ public class TestTestingClockService{
 		//using real time should return the system time.
 		timeService.useRealTime();
 		
-		
 		DateTime serviceProvidedTimeStamp = timeService.getSystemTime();
 		
 		Thread.sleep(1);

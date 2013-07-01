@@ -10,16 +10,20 @@ import javax.persistence.TemporalType;
 
 import org.joda.time.DateTime;
 
-import com.clinkworks.timecard.datatypes.Entry;
+import com.clinkworks.timecard.domain.Entry;
 import com.clinkworks.timecard.util.TimecardComponentFactory;
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 
 /**
  * This service provides the ability to manipulate entries.
+
  * @author AnthonyJCLink
  *
  */
+@Singleton
 public class EntryService{
 
 	@Inject
@@ -49,10 +53,6 @@ public class EntryService{
 		return retval;
 	}
 
-	public Entry getEntryById(Long id) {
-		return em.find(Entry.class, id);
-	}
-
 	@Transactional
 	public void deleteEntry(Entry entry) {
 		em.remove(entry);
@@ -64,6 +64,10 @@ public class EntryService{
 			em.remove(entry);
 		}
 	}
+	
+	public Entry getEntryById(Long id) {
+		return em.find(Entry.class, id);
+	}	
 	
 	public List<Entry> getEntriesBetween(DateTime startTime, DateTime endTime) {
 		//TODO: once jodatime mappings are working, get rid of this call.
@@ -77,13 +81,15 @@ public class EntryService{
 	}
 
 	public List<Entry> getEntriesBetweenSortedAcending(DateTime startTime, DateTime endTime){
-		List<Entry> retval = getEntriesBetween(startTime, endTime);
-		sortEntriesAcending(retval);
+		//lists returned from JPA are immutable. This allows the sorting to happen.
+		List<Entry> retval = Lists.newArrayList(getEntriesBetween(startTime, endTime));
+		sortEntriesAcending(Lists.newArrayList(retval));
 		return retval;
 	}
 
 	public List<Entry> getEntriesBetweenSortedDecending(DateTime startTime, DateTime endTime){
-		List<Entry> retval = getEntriesBetween(startTime, endTime);
+		//lists returned from JPA are immutable. This allows the sorting to happen.
+		List<Entry> retval = Lists.newArrayList(getEntriesBetween(startTime, endTime));
 		sortEntriesDecending(retval);
 		return retval;
 	}	

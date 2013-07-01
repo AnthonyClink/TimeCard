@@ -8,6 +8,5 @@ public class TestCaseConfigBase extends ConfigBase{
 	protected void configure() {
 		bind(SystemTimeService.class).to(TestSystemTimeService.class);
 		super.configure();
-		//ClientDriver
 	}
 }

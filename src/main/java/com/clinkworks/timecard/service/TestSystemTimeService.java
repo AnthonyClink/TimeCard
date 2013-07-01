@@ -23,33 +23,34 @@ public final class TestSystemTimeService extends SystemTimeService{
 		useRealTime = true;
 	}
 	
-	public final TestSystemTimeService resetClockToJanuaryFirstTwoThousand(){
+	public synchronized final TestSystemTimeService resetClockToJanuaryFirstTwoThousand(){
 		systemDate = JANUARY_FIRST_TWO_THOUSAND;
 		return this;
 	}
 	
-	public TestSystemTimeService useRealTime(){
+	public synchronized TestSystemTimeService useRealTime(){
 		useRealTime = true;
 		return this;
 	}
 	
-	public TestSystemTimeService setTestTimeToNow(){
+	
+	public synchronized TestSystemTimeService setTestTimeToNow(){
 		systemDate = new DateTime();
 		return this;
 	}
 	
-	public TestSystemTimeService useTestTime(){
+	public synchronized TestSystemTimeService useTestTime(){
 		useRealTime = false;
 		return this;
 	}
 	
-	public TestSystemTimeService setTestSystemTime(DateTime date){
+	public synchronized TestSystemTimeService setTestSystemTime(DateTime date){
 		systemDate = date;
 		return this;
 	}	
 	
 	@Override
-	public DateTime getSystemTime(){
+	public synchronized DateTime getSystemTime(){
 		
 		if(useRealTime){
 			return new DateTime();
@@ -63,74 +64,74 @@ public final class TestSystemTimeService extends SystemTimeService{
 
 	}
 	
-	public DateTime addYear(){
+	public synchronized DateTime addYear(){
 		systemDate = systemDate.plusYears(1);
 		return systemDate;
 	}
 
-	public DateTime addMonth(){
+	public synchronized DateTime addMonth(){
 		systemDate = systemDate.plusMonths(1);
 		return systemDate;
 	}
 	
-	public DateTime addDay(){
+	public synchronized DateTime addDay(){
 		systemDate = systemDate.plusDays(1);
 		return systemDate;
 	}
 	
-	public DateTime addHour(){
+	public synchronized DateTime addHour(){
 		systemDate = systemDate.plusHours(1);
 		return systemDate;
 	}
 	
-	public DateTime addMinute(){
+	public synchronized DateTime addMinute(){
 		systemDate = systemDate.plusMinutes(1);
 		return systemDate;
 	}
 	
-	public DateTime addSecond(){
+	public synchronized DateTime addSecond(){
 		systemDate = systemDate.plusSeconds(1);
 		return systemDate;
 	}
 	
-	public DateTime addmillisecond(){
+	public synchronized DateTime addmillisecond(){
 		systemDate = systemDate.plusMillis(1);
 		return systemDate;
 	}	
 	
-	public DateTime addYears(int years){
+	public synchronized DateTime addYears(int years){
 		systemDate = systemDate.plusYears(years);
 		return systemDate;
 	}
 	
-	public DateTime addMonths(int months){
+	public synchronized DateTime addMonths(int months){
 		systemDate = systemDate.plusMonths(months);
 		return systemDate;
 	}
 	
-	public DateTime addDays(int days){
+	public synchronized DateTime addDays(int days){
 		systemDate = systemDate.plusDays(days);
 		return systemDate;
 	}
 	
 
 	
-	public DateTime addHours(int hours){
+	public synchronized DateTime addHours(int hours){
 		systemDate = systemDate.plusHours(hours);
 		return systemDate;
 	}
 	
-	public DateTime addMinutes(int minutes){
+	public synchronized DateTime addMinutes(int minutes){
 		systemDate = systemDate.plusMinutes(minutes);
 		return systemDate;
 	}
 	
-	public DateTime addSeconds(int seconds){
+	public synchronized DateTime addSeconds(int seconds){
 		systemDate = systemDate.plusSeconds(seconds);
 		return systemDate;
 	}
 	
-	public DateTime addmilliseconds(int milliseconds){
+	public synchronized DateTime addmilliseconds(int milliseconds){
 		systemDate = systemDate.plusMillis(milliseconds);
 		return systemDate;
 	}

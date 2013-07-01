@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import com.clinkworks.timecard.config.TestCaseConfigBase;
-import com.clinkworks.timecard.datatypes.Entry;
+import com.clinkworks.timecard.domain.Entry;
 import com.clinkworks.timecard.service.EntryService;
 import com.clinkworks.timecard.service.TestSystemTimeService;
 import com.google.common.collect.Lists;

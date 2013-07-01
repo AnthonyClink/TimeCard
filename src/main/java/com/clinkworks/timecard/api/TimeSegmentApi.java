@@ -6,5 +6,5 @@ package com.clinkworks.timecard.api;
  *
  */
 public class TimeSegmentApi {
-
+	
 }
