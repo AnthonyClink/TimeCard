@@ -45,13 +45,14 @@ public class Entry implements ReadableInstant{
     @GeneratedValue(strategy=GenerationType.IDENTITY, generator="ENTRY_SEQ")
 	private Long id;
 	
-	/**
-	 * this is a hack till I figure out how to handle joda datetime correctly, or learn to make a custom
-	 * mapper
-	 */
+
 	@Persistent
 	private Timestamp timeStamp;
 	
+	/*
+	 * this is a hack till I figure out how to handle joda datetime correctly, or learn to make a custom
+	 * mapper
+	 */	
 	@Transient
 	private DateTime systemDateTime;
 	
