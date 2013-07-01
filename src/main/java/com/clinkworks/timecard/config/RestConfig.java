@@ -15,8 +15,6 @@ import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
 /**
  * This class is used to configure rest classes.
- * NOTE: this class directly installs the JpaConfig.
- * any changes to jpa should be done there, not here.
  * @author AnthonyJCLink
  *
  */
