@@ -7,15 +7,15 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.clinkworks.timecard.component.SystemTimeComponent;
 import com.clinkworks.timecard.config.TestCaseConfigBase;
-import com.clinkworks.timecard.service.SystemTimeService;
 
 @RunWith(JukitoRunner.class)
 @UseModules({ TestCaseConfigBase.class })
-public class TestTimeService {
+public class TestTimeComponent {
 
 	@Test
-	public void testSystemTimeServiceGivesSystemTime(SystemTimeService timeService) throws InterruptedException{
+	public void testSystemTimeServiceGivesSystemTime(SystemTimeComponent timeService) throws InterruptedException{
 		
 		DateTime then = timeService.getSystemTime();
 		

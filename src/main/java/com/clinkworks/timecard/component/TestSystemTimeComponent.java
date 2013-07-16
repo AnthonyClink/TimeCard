@@ -1,4 +1,4 @@
-package com.clinkworks.timecard.service;
+package com.clinkworks.timecard.component;
 
 import org.joda.time.DateTime;
 
@@ -11,40 +11,40 @@ import com.google.inject.Singleton;
  *
  */
 @Singleton
-public final class TestSystemTimeService extends SystemTimeService{
+public final class TestSystemTimeComponent extends SystemTimeComponent{
 	
 	public static final DateTime JANUARY_FIRST_TWO_THOUSAND = new DateTime(2000, 1, 1, 0, 0, 0, 0);
 	
 	private DateTime systemDate;
 	private boolean useRealTime;
 	
-	public TestSystemTimeService(){
+	public TestSystemTimeComponent(){
 		systemDate = JANUARY_FIRST_TWO_THOUSAND;
 		useRealTime = true;
 	}
 	
-	public synchronized final TestSystemTimeService resetClockToJanuaryFirstTwoThousand(){
+	public synchronized final TestSystemTimeComponent resetClockToJanuaryFirstTwoThousand(){
 		systemDate = JANUARY_FIRST_TWO_THOUSAND;
 		return this;
 	}
 	
-	public synchronized TestSystemTimeService useRealTime(){
+	public synchronized TestSystemTimeComponent useRealTime(){
 		useRealTime = true;
 		return this;
 	}
 	
 	
-	public synchronized TestSystemTimeService setTestTimeToNow(){
+	public synchronized TestSystemTimeComponent setTestTimeToNow(){
 		systemDate = new DateTime();
 		return this;
 	}
 	
-	public synchronized TestSystemTimeService useTestTime(){
+	public synchronized TestSystemTimeComponent useTestTime(){
 		useRealTime = false;
 		return this;
 	}
 	
-	public synchronized TestSystemTimeService setTestSystemTime(DateTime date){
+	public synchronized TestSystemTimeComponent setTestSystemTime(DateTime date){
 		systemDate = date;
 		return this;
 	}	

@@ -11,15 +11,15 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.clinkworks.timecard.component.TestSystemTimeComponent;
 import com.clinkworks.timecard.config.TestCaseConfigBase;
-import com.clinkworks.timecard.service.TestSystemTimeService;
 
 @RunWith(JukitoRunner.class)
 @UseModules({ TestCaseConfigBase.class })
-public class TestTestingClockService{
+public class TestTestingClockComponent{
 	
 	@Test
-	public void testRealTimeVsNotRealTime(TestSystemTimeService timeService) throws InterruptedException{
+	public void testRealTimeVsNotRealTime(TestSystemTimeComponent timeService) throws InterruptedException{
 		
 		//set the internal test date
 		DateTime januaryfirstTwoThousand = new DateTime(2000, 1, 1, 0, 0, 0);
@@ -44,7 +44,7 @@ public class TestTestingClockService{
 	}
 	
 	@Test
-	public void testTestClockTimeManipulationFeatures(TestSystemTimeService timeService){
+	public void testTestClockTimeManipulationFeatures(TestSystemTimeComponent timeService){
 
 		DateTime januaryfirstTwoThousand = new DateTime(2000, 1, 1, 0, 0, 0);
 		

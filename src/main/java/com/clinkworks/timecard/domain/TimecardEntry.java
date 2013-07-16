@@ -27,20 +27,20 @@ import com.google.inject.assistedinject.Assisted;
 @Table(name="EntryTable")
 @NamedQueries({
     @NamedQuery(
-    	name="Entry.findAll",
-    	query="SELECT e FROM Entry e"
+    	name="TimecardEntry.findAll",
+    	query="SELECT e FROM TimecardEntry e"
     ),
     @NamedQuery(
-    	name="Entry.findAllBetween",
-    	query="SELECT e FROM Entry e " +
+    	name="TimecardEntry.findAllBetween",
+    	query="SELECT e FROM TimecardEntry e " +
     		"WHERE e.timeStamp BETWEEN :start AND :end"
     ),
     @NamedQuery(
-    	name="Entry.deleteById", 
-    	query="DELETE FROM Entry e WHERE e.id = :ID"
+    	name="TimecardEntry.deleteById", 
+    	query="DELETE FROM TimecardEntry e WHERE e.id = :ID"
     )
 }) 
-public class Entry implements ReadableInstant{
+public class TimecardEntry implements ReadableInstant{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY, generator="ENTRY_SEQ")
 	private Long id;
@@ -57,7 +57,7 @@ public class Entry implements ReadableInstant{
 	private DateTime systemDateTime;
 	
 	@Inject
-	public Entry(@Assisted DateTime timeStamp){
+	public TimecardEntry(@Assisted DateTime timeStamp){
 		this.timeStamp = new Timestamp(timeStamp.getMillis());
 		systemDateTime = timeStamp;
 	}
@@ -77,17 +77,17 @@ public class Entry implements ReadableInstant{
 	}
 	
 	@Transient
-	public boolean isBefore(Entry that){
+	public boolean isBefore(TimecardEntry that){
 		return getTimeStamp().isBefore(that.getTimeStamp());
 	}
 	
 	@Transient
-	public boolean isAfter(Entry that){
+	public boolean isAfter(TimecardEntry that){
 		return getTimeStamp().isAfter(that.getTimeStamp());
 	}
 	
 	@Transient
-	public boolean isEqual(Entry that){
+	public boolean isEqual(TimecardEntry that){
 		return getTimeStamp().isEqual(that.getTimeStamp());
 	}
 	
@@ -158,8 +158,8 @@ public class Entry implements ReadableInstant{
 		if(object == this){
 			return true;
 		}
-		if(object instanceof Entry){
-			return isEqual((Entry)object);
+		if(object instanceof TimecardEntry){
+			return isEqual((TimecardEntry)object);
 		}
 		if(object instanceof DateTime){
 			return isEqual((DateTime)object);

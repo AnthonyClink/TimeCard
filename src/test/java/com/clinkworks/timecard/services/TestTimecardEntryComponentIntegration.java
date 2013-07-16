@@ -14,31 +14,31 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.clinkworks.timecard.component.TimecardEntryComponent;
+import com.clinkworks.timecard.component.TestSystemTimeComponent;
 import com.clinkworks.timecard.config.JpaConfig;
 import com.clinkworks.timecard.config.TestCaseConfigBase;
-import com.clinkworks.timecard.domain.Entry;
-import com.clinkworks.timecard.service.EntryService;
-import com.clinkworks.timecard.service.TestSystemTimeService;
+import com.clinkworks.timecard.domain.TimecardEntry;
 import com.google.common.collect.Lists;
 
 @RunWith(JukitoRunner.class)
 @UseModules({ TestCaseConfigBase.class, JpaConfig.class })
-public class TestEntryServiceIntegration {
+public class TestTimecardEntryComponentIntegration {
 	
 	@Test
-	public void testEntryServiceCanPersistEntries(EntryService entryService, EntityManager entityManager){
+	public void testEntryServiceCanPersistEntries(TimecardEntryComponent entryService, EntityManager entityManager){
 		
-		List<Entry> entriesToRemove = new ArrayList<Entry>();
+		List<TimecardEntry> entriesToRemove = new ArrayList<TimecardEntry>();
 		
 		try{
 			
-			Entry entry = entryService.createEntry();
+			TimecardEntry entry = entryService.createTimecardEntry();
 			
 			entriesToRemove.add(entry);
 			
 			assertNotNull(entry);
 			
-			Entry queriedEntry = entryService.getEntryById(entry.getId());
+			TimecardEntry queriedEntry = entryService.getTimecardEntryById(entry.getId());
 			
 			assertNotNull(queriedEntry);
 			assertEquals(entry.getId(), queriedEntry.getId());
@@ -50,26 +50,26 @@ public class TestEntryServiceIntegration {
 	}
 	
 	@Test
-	public void testEntryServiceCanQueryDateRange(EntityManager entityManager, EntryService entryService, TestSystemTimeService timeService){
+	public void testEntryServiceCanQueryDateRange(EntityManager entityManager, TimecardEntryComponent entryService, TestSystemTimeComponent timeService){
 		
 		DateTime startTime = timeService.resetClockToJanuaryFirstTwoThousand().useTestTime().getSystemTime();
 		DateTime endTime = startTime.plusDays(1);
 		
-		List<Entry> entriesToCleanup = new ArrayList<Entry>();
+		List<TimecardEntry> entriesToCleanup = new ArrayList<TimecardEntry>();
 		
 		try{
 			//want to give a buffer time to make query by range work easier.
-			Entry entry1 = entryService.createEntry();
+			TimecardEntry entry1 = entryService.createTimecardEntry();
 			timeService.addHour();
-			Entry entry2 = entryService.createEntry();
+			TimecardEntry entry2 = entryService.createTimecardEntry();
 			timeService.addDay();
-			Entry entry3 = entryService.createEntry();
+			TimecardEntry entry3 = entryService.createTimecardEntry();
 			
 			entriesToCleanup.add(entry1);
 			entriesToCleanup.add(entry2);
 			entriesToCleanup.add(entry3);
 			
-			List<Entry> queriedEntries = Lists.newArrayList(entryService.getEntriesBetween(startTime, endTime));
+			List<TimecardEntry> queriedEntries = Lists.newArrayList(entryService.getTimecardEntriesBetween(startTime, endTime));
 			
 			
 			assertEquals(2, queriedEntries.size());
@@ -89,50 +89,50 @@ public class TestEntryServiceIntegration {
 	}
 	
 	@Test
-	public void testEntryCanBeDeleted(EntryService entryService, EntityManager entityManager) throws InterruptedException{
+	public void testEntryCanBeDeleted(TimecardEntryComponent entryService, EntityManager entityManager) throws InterruptedException{
 
-		Entry entry = entryService.createEntry();
+		TimecardEntry entry = entryService.createTimecardEntry();
 		
-		entryService.deleteEntry(entry);
+		entryService.deleteTimecardEntry(entry);
 		
-		Entry nullEntry = entryService.getEntryById(entry.getId());
+		TimecardEntry nullEntry = entryService.getTimecardEntryById(entry.getId());
 		
 		assertNull(nullEntry);
 		
-		Entry newEntry = entryService.createEntry();
+		TimecardEntry newEntry = entryService.createTimecardEntry();
 		
 		Long id = newEntry.getId();
 		
 		assertNotNull(newEntry);
 		
-		entryService.deleteEntryById(id);
+		entryService.deleteTimecardEntryById(id);
 		
-		Entry newNullEntry = entryService.getEntryById(id);
+		TimecardEntry newNullEntry = entryService.getTimecardEntryById(id);
 		
 		assertNull(newNullEntry);
 		
 	}
 	
 	@Test
-	public void testEntrysCanBeDeleted(EntryService entryService, TestSystemTimeService timeService){
+	public void testEntrysCanBeDeleted(TimecardEntryComponent entryService, TestSystemTimeComponent timeService){
 		
 		DateTime timeStamp = timeService.setTestTimeToNow().useTestTime().addYears(5);
 		
 		DateTime start = timeStamp.minusHours(1);
 		DateTime end = timeStamp.plusHours(1);
 		
-		List<Entry> entriesToRemove = Lists.newArrayList(
-			entryService.createEntry(),
-			entryService.createEntry(),
-			entryService.createEntry(),
-			entryService.createEntry(),
-			entryService.createEntry(),
-			entryService.createEntry(),
-			entryService.createEntry(),
-			entryService.createEntry()
+		List<TimecardEntry> entriesToRemove = Lists.newArrayList(
+			entryService.createTimecardEntry(),
+			entryService.createTimecardEntry(),
+			entryService.createTimecardEntry(),
+			entryService.createTimecardEntry(),
+			entryService.createTimecardEntry(),
+			entryService.createTimecardEntry(),
+			entryService.createTimecardEntry(),
+			entryService.createTimecardEntry()
 		);
 		
-		List<Entry> queriedEntries = entryService.getEntriesBetween(start, end);
+		List<TimecardEntry> queriedEntries = entryService.getTimecardEntriesBetween(start, end);
 		
 		//reason to check is its greater, just incase the test failed in the middle.
 		//since this is an integration test... jpa will not allow delete to be called on 
@@ -140,22 +140,24 @@ public class TestEntryServiceIntegration {
 		//either in the entity, configuration, etc.
 		assertTrue(entriesToRemove.size() >= 8);
 		
-		entryService.deleteEntries(queriedEntries);
+		entryService.deleteTimecardEntries(queriedEntries);
 		
-		queriedEntries = entryService.getEntriesBetween(start, end);
+		queriedEntries = entryService.getTimecardEntriesBetween(start, end);
 		
 		assertEquals(0, queriedEntries.size());
 			
 	} 
 	
-	private void cleanupEntries(EntityManager entityManager, List<Entry> entries){
+	private void cleanupEntries(EntityManager entityManager, List<TimecardEntry> entries){
 		
 		EntityTransaction transaction = entityManager.getTransaction();
 		
 		transaction.begin();
 		
-		for(Entry entry : entries){
-			entityManager.remove(entry);
+		for(TimecardEntry entry : entries){
+			if(entityManager.contains(entry)){
+				entityManager.remove(entry);
+			}
 		}
 		
 		transaction.commit();

@@ -8,26 +8,27 @@ import org.jukito.UseModules;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import com.clinkworks.timecard.component.TimecardEntryComponent;
+import com.clinkworks.timecard.component.TestSystemTimeComponent;
 import com.clinkworks.timecard.config.TestCaseConfigBase;
-import com.clinkworks.timecard.domain.Entry;
-import com.clinkworks.timecard.service.EntryService;
-import com.clinkworks.timecard.service.TestSystemTimeService;
+import com.clinkworks.timecard.domain.TimecardEntry;
 import com.google.common.collect.Lists;
 
 @RunWith(JukitoRunner.class)
 @UseModules({ TestCaseConfigBase.class })
-public class TestEntryService{
+public class TestTimecardEntryComponent{
 	
 	@Test
-	public void testServiceCanCreateEntry(EntryService entryService){
+	public void testServiceCanCreateEntry(TimecardEntryComponent entryComponent){
 		
-		Entry entry = entryService.createEntry();
+		TimecardEntry entry = entryComponent.createTimecardEntry();
 		
 		assertNotNull(entry);
 		
 		DateTime now = new DateTime();
 		
-		Entry manualEntry = entryService.createEntry(now);
+		TimecardEntry manualEntry = entryComponent.createTimecardEntry(now);
 		
 		assertNotNull(manualEntry);
 		
@@ -36,34 +37,34 @@ public class TestEntryService{
 	}
 	
 	@Test
-	public void testEntryContainsSystemTimestamp(EntryService entryService, TestSystemTimeService timeService){
+	public void testEntryContainsSystemTimestamp(TimecardEntryComponent entryComponent, TestSystemTimeComponent timeComponent){
 		
-		DateTime initalTime = timeService.useTestTime().getSystemTime();
+		DateTime initalTime = timeComponent.useTestTime().getSystemTime();
 		
-		Entry entry = entryService.createEntry();
+		TimecardEntry entry = entryComponent.createTimecardEntry();
 		
 		assertEquals(initalTime, entry.getTimeStamp());
 		
-		DateTime timeStampTomorrow = timeService.addDay();
+		DateTime timeStampTomorrow = timeComponent.addDay();
 		
-		Entry entryTomorrow = entryService.createEntry();
+		TimecardEntry entryTomorrow = entryComponent.createTimecardEntry();
 		
 		assertEquals(timeStampTomorrow, entryTomorrow.getTimeStamp());
 
 	}
 	
 	@Test
-	public void entriesCanCompareThemselves(EntryService entryService, TestSystemTimeService timeService){
+	public void entriesCanCompareThemselves(TimecardEntryComponent entryComponent, TestSystemTimeComponent timeComponent){
 		
-		DateTime morning = timeService.resetClockToJanuaryFirstTwoThousand().useTestTime().getSystemTime();
+		DateTime morning = timeComponent.resetClockToJanuaryFirstTwoThousand().useTestTime().getSystemTime();
 		
 		DateTime noon = morning.plusHours(12);
 		
 		DateTime night = noon.plusHours(12).minusSeconds(1);
 		
-		Entry morningEntry = entryService.createEntry();
-		Entry noonEntry = entryService.createEntry(noon);
-		Entry nightEntry = entryService.createEntry(night);
+		TimecardEntry morningEntry = entryComponent.createTimecardEntry();
+		TimecardEntry noonEntry = entryComponent.createTimecardEntry(noon);
+		TimecardEntry nightEntry = entryComponent.createTimecardEntry(night);
 		
 		assertTrue(nightEntry.isAfter(noonEntry));
 		assertTrue(nightEntry.isAfter(morningEntry));
@@ -74,7 +75,7 @@ public class TestEntryService{
 		assertTrue(morningEntry.isBefore(noonEntry));
 		assertTrue(morningEntry.isBefore(nightEntry));
 		
-		DateTime newMorning = timeService.resetClockToJanuaryFirstTwoThousand().getSystemTime();//gets a new time reference so object equality
+		DateTime newMorning = timeComponent.resetClockToJanuaryFirstTwoThousand().getSystemTime();//gets a new time reference so object equality
 		                                                  //isn't an issue.
 		
 		assertEquals(-1, morning.compareTo(night));
@@ -84,26 +85,26 @@ public class TestEntryService{
 	}
 	
 	@Test
-	public void entriesCanBeSorted(EntryService entryService, TestSystemTimeService timeService){
-		DateTime morning = timeService.resetClockToJanuaryFirstTwoThousand().useTestTime().getSystemTime();
+	public void entriesCanBeSorted(TimecardEntryComponent entryComponent, TestSystemTimeComponent timeComponent){
+		DateTime morning = timeComponent.resetClockToJanuaryFirstTwoThousand().useTestTime().getSystemTime();
 		
 		DateTime noon = morning.plusHours(12);
 		
 		DateTime night = noon.plusHours(12).minusSeconds(1);
 		
-		Entry morningEntry = entryService.createEntry();
-		Entry noonEntry = entryService.createEntry(noon);
-		Entry nightEntry = entryService.createEntry(night);
+		TimecardEntry morningEntry = entryComponent.createTimecardEntry();
+		TimecardEntry noonEntry = entryComponent.createTimecardEntry(noon);
+		TimecardEntry nightEntry = entryComponent.createTimecardEntry(night);
 		
-		List<Entry> listToSort = Lists.newArrayList(nightEntry, noonEntry, morningEntry);
+		List<TimecardEntry> listToSort = Lists.newArrayList(nightEntry, noonEntry, morningEntry);
 		
-		entryService.sortEntriesAcending(listToSort);
+		entryComponent.sortTimecardEntriesAcending(listToSort);
 		
 		assertEquals(morningEntry, listToSort.get(0));
 		assertEquals(noonEntry, listToSort.get(1));
 		assertEquals(nightEntry, listToSort.get(2));
 		
-		entryService.sortEntriesDecending(listToSort);
+		entryComponent.sortTimecardEntriesDecending(listToSort);
 		
 		assertEquals(nightEntry, listToSort.get(0));
 		assertEquals(noonEntry, listToSort.get(1));
