@@ -1,6 +1,5 @@
 package com.clinkworks.timecard.api;
 
-import javax.annotation.concurrent.ThreadSafe;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -9,7 +8,10 @@ import javax.ws.rs.core.Response;
 
 import com.clinkworks.timecard.component.TimecardEntryComponent;
 import com.clinkworks.timecard.component.TimecardSegmentComponent;
+import com.clinkworks.timecard.domain.TimecardEntry;
+import com.clinkworks.timecard.domain.TimecardSegment;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 /**
@@ -17,19 +19,20 @@ import com.google.inject.Singleton;
  * @author AnthonyJCLink
  *
  */
-@Singleton
 @Produces(MediaType.APPLICATION_JSON)
 @Path("timecard/segment")
-public final class TimeSegmentService {
+public class TimeSegmentService {
 	
 	private final TimecardEntryComponent timecardEntryComponent;
 	private final TimecardSegmentComponent timecardSegmentComponent;
+	//private final Provider<TimecardSegment> segmentProvider; 
 	
 	@Inject
 	public TimeSegmentService(TimecardEntryComponent timecardEntryComponent, TimecardSegmentComponent timecardSegmentComponent){
 		this.timecardEntryComponent = timecardEntryComponent;
 		this.timecardSegmentComponent = timecardSegmentComponent;
 	}
+	
 	
     @GET
     @Produces(MediaType.APPLICATION_JSON)

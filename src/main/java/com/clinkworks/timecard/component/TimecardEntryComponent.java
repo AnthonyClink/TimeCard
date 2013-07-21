@@ -1,6 +1,7 @@
 package com.clinkworks.timecard.component;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -11,6 +12,7 @@ import javax.persistence.TemporalType;
 
 import org.joda.time.DateTime;
 
+import com.clinkworks.timecard.datatypes.Entry;
 import com.clinkworks.timecard.domain.TimecardEntry;
 import com.clinkworks.timecard.util.TimecardComponentFactory;
 import com.google.common.collect.Lists;
@@ -42,27 +44,30 @@ public class TimecardEntryComponent{
 	
 	@Transactional
 	public TimecardEntry createTimecardEntry(){
-		TimecardEntry retval = TCCF.createNewTimecardEntry(timeService.getSystemTime());
-		em.persist(retval);
+		//TODO: fix this before end of sprint
+		Entry entry = TCCF.createNewEntry(timeService.getSystemTime());
+		TimecardEntry retval = TCCF.createNewTimecardEntry(entry);
+		em.persist(entry);
 		return retval;
 	}
 	
 	@Transactional
 	public TimecardEntry createTimecardEntry(DateTime timeStamp) {
-		TimecardEntry retval = TCCF.createNewTimecardEntry(timeStamp);
-		em.persist(retval);
+		Entry entry = TCCF.createNewEntry(timeStamp);
+		TimecardEntry retval = TCCF.createNewTimecardEntry(entry);
+		em.persist(entry);
 		return retval;
 	}
 
 	@Transactional
 	public void deleteTimecardEntry(TimecardEntry entry) {
-		em.remove(entry);
+		em.remove(entry.getEntry());
 	}	
 	
 	@Transactional
 	public void deleteTimecardEntries(List<TimecardEntry> entries){
 		for(TimecardEntry entry : entries){
-			em.remove(entry);
+			em.remove(entry.getEntry());
 		}
 	}
 	
@@ -72,14 +77,20 @@ public class TimecardEntryComponent{
 	 */
 	@Transactional
 	public void deleteTimecardEntryById(Long id){
-		TimecardEntry entry = em.find(TimecardEntry.class, id);
+		Entry entry = em.find(Entry.class, id);
 		if(entry != null){
 			em.remove(entry);
 		}
 	}
 	
 	public TimecardEntry getTimecardEntryById(Long id) {
-		return em.find(TimecardEntry.class, id);
+		Entry entry = em.find(Entry.class, id);
+		
+		if(entry == null){
+			return null;
+		}
+		
+		return TCCF.createNewTimecardEntry(entry);
 	}	
 	
 	public List<TimecardEntry> getTimecardEntriesBetween(DateTime startTime, DateTime endTime) {
@@ -87,10 +98,20 @@ public class TimecardEntryComponent{
 		Date startDate = new Date(startTime.getMillis());
 		Date endDate = new Date(endTime.getMillis());
 		
-		return em.createNamedQuery("TimecardEntry.findAllBetween", TimecardEntry.class).
-			setParameter("start", startDate, TemporalType.TIMESTAMP).
-			setParameter("end",endDate, TemporalType.TIMESTAMP).getResultList();
+		return transform(
+			em.createNamedQuery("Entry.findAllBetween", Entry.class).
+				setParameter("start", startDate, TemporalType.TIMESTAMP).
+				setParameter("end",endDate, TemporalType.TIMESTAMP).getResultList()
+		);
 		
+	}
+	
+	private List<TimecardEntry> transform(List<Entry> entries){
+		List<TimecardEntry> timecardDomainObjects = new ArrayList<TimecardEntry>();
+		for(Entry entry : entries){
+			timecardDomainObjects.add(TCCF.createNewTimecardEntry(entry));
+		}
+		return timecardDomainObjects;
 	}
 
 	public List<TimecardEntry> getTimecardEntriesBetweenSortedAcending(DateTime startTime, DateTime endTime){

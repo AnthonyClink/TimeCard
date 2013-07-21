@@ -36,6 +36,8 @@ public class RestConfig extends ServletModule{
         guiceContainerConfig.put(ResourceConfig.PROPERTY_RESOURCE_FILTER_FACTORIES,
             HttpStatusCodeMetricResourceFilterFactory.class.getCanonicalName());
         
+        guiceContainerConfig.put("com.sun.jersey.config.property.packages", "com.clinkworks.timecard.services");
+        
         serve("/*").with(GuiceContainer.class, guiceContainerConfig);
         
         filter("/*").through(CorsFilter.class);

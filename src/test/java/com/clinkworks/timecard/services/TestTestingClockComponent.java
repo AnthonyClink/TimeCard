@@ -11,15 +11,15 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.clinkworks.timecard.component.TestSystemTimeComponent;
 import com.clinkworks.timecard.config.TestCaseConfigBase;
+import com.clinkworks.timecard.util.SystemTimeUtil;
 
 @RunWith(JukitoRunner.class)
 @UseModules({ TestCaseConfigBase.class })
 public class TestTestingClockComponent{
 	
 	@Test
-	public void testRealTimeVsNotRealTime(TestSystemTimeComponent timeService) throws InterruptedException{
+	public void testRealTimeVsNotRealTime(SystemTimeUtil timeService) throws InterruptedException{
 		
 		//set the internal test date
 		DateTime januaryfirstTwoThousand = new DateTime(2000, 1, 1, 0, 0, 0);
@@ -36,7 +36,7 @@ public class TestTestingClockComponent{
 		DateTime realTimeTimeStamp = new DateTime();
 		
 		Assert.assertTrue(serviceProvidedTimeStamp.isBefore(realTimeTimeStamp));
-		Assert.assertTrue(serviceProvidedTimeStamp.isAfter(realTimeTimeStamp.plusSeconds(-2)));
+		Assert.assertTrue(serviceProvidedTimeStamp.isAfter(realTimeTimeStamp.minusSeconds(2)));
 		
 		timeService.useTestTime();
 		
@@ -44,7 +44,7 @@ public class TestTestingClockComponent{
 	}
 	
 	@Test
-	public void testTestClockTimeManipulationFeatures(TestSystemTimeComponent timeService){
+	public void testTestClockTimeManipulationFeatures(SystemTimeUtil timeService){
 
 		DateTime januaryfirstTwoThousand = new DateTime(2000, 1, 1, 0, 0, 0);
 		
@@ -79,26 +79,26 @@ public class TestTestingClockComponent{
 		List<DateTime> unitValidationWithoutParam = createListFromData(addUnitsWithoutParams);
 		
 		validateDate(unitValidationWithoutParam.get(0), timeService.getSystemTime());
-		validateDate(unitValidationWithoutParam.get(1), timeService.addmillisecond());
-		validateDate(unitValidationWithoutParam.get(2), timeService.addSecond());
-		validateDate(unitValidationWithoutParam.get(3), timeService.addMinute());
-		validateDate(unitValidationWithoutParam.get(4), timeService.addHour());
-		validateDate(unitValidationWithoutParam.get(5), timeService.addDay());
-		validateDate(unitValidationWithoutParam.get(6), timeService.addMonth());
-		validateDate(unitValidationWithoutParam.get(7), timeService.addYear());
+		validateDate(unitValidationWithoutParam.get(1), timeService.addmillisecond().getSystemTime());
+		validateDate(unitValidationWithoutParam.get(2), timeService.addSecond().getSystemTime());
+		validateDate(unitValidationWithoutParam.get(3), timeService.addMinute().getSystemTime());
+		validateDate(unitValidationWithoutParam.get(4), timeService.addHour().getSystemTime());
+		validateDate(unitValidationWithoutParam.get(5), timeService.addDay().getSystemTime());
+		validateDate(unitValidationWithoutParam.get(6), timeService.addMonth().getSystemTime());
+		validateDate(unitValidationWithoutParam.get(7), timeService.addYear().getSystemTime());
 
 		List<DateTime> unitValidationWithCountParamOfTwo = createListFromData(addUnitWithParamSetToTwo);
 		
 		timeService.setTestSystemTime(januaryfirstTwoThousand);
 		
 		validateDate(unitValidationWithCountParamOfTwo.get(0), timeService.getSystemTime());
-		validateDate(unitValidationWithCountParamOfTwo.get(1), timeService.addmilliseconds(countParam));
-		validateDate(unitValidationWithCountParamOfTwo.get(2), timeService.addSeconds(countParam));
-		validateDate(unitValidationWithCountParamOfTwo.get(3), timeService.addMinutes(countParam));
-		validateDate(unitValidationWithCountParamOfTwo.get(4), timeService.addHours(countParam));
-		validateDate(unitValidationWithCountParamOfTwo.get(5), timeService.addDays(countParam));
-		validateDate(unitValidationWithCountParamOfTwo.get(6), timeService.addMonths(countParam));
-		validateDate(unitValidationWithCountParamOfTwo.get(7), timeService.addYears(countParam));		
+		validateDate(unitValidationWithCountParamOfTwo.get(1), timeService.addmilliseconds(countParam).getSystemTime());
+		validateDate(unitValidationWithCountParamOfTwo.get(2), timeService.addSeconds(countParam).getSystemTime());
+		validateDate(unitValidationWithCountParamOfTwo.get(3), timeService.addMinutes(countParam).getSystemTime());
+		validateDate(unitValidationWithCountParamOfTwo.get(4), timeService.addHours(countParam).getSystemTime());
+		validateDate(unitValidationWithCountParamOfTwo.get(5), timeService.addDays(countParam).getSystemTime());
+		validateDate(unitValidationWithCountParamOfTwo.get(6), timeService.addMonths(countParam).getSystemTime());
+		validateDate(unitValidationWithCountParamOfTwo.get(7), timeService.addYears(countParam).getSystemTime());		
 	}
 	
 	private void validateDate(DateTime expected, DateTime actual){

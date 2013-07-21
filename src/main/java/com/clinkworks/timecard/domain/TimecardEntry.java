@@ -20,139 +20,114 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Instant;
 import org.joda.time.ReadableInstant;
 
+import com.clinkworks.timecard.datatypes.Entry;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-@Entity
-@Table(name="EntryTable")
-@NamedQueries({
-    @NamedQuery(
-    	name="TimecardEntry.findAll",
-    	query="SELECT e FROM TimecardEntry e"
-    ),
-    @NamedQuery(
-    	name="TimecardEntry.findAllBetween",
-    	query="SELECT e FROM TimecardEntry e " +
-    		"WHERE e.timeStamp BETWEEN :start AND :end"
-    ),
-    @NamedQuery(
-    	name="TimecardEntry.deleteById", 
-    	query="DELETE FROM TimecardEntry e WHERE e.id = :ID"
-    )
-}) 
-public class TimecardEntry implements ReadableInstant{
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY, generator="ENTRY_SEQ")
-	private Long id;
-	
 
-	@Persistent
-	private Timestamp timeStamp;
-	
-	/*
-	 * this is a hack till I figure out how to handle joda datetime correctly, or learn to make a custom
-	 * mapper
-	 */	
-	@Transient
-	private DateTime systemDateTime;
+public class TimecardEntry implements ReadableInstant{
+    
+	private Entry entry;
 	
 	@Inject
-	public TimecardEntry(@Assisted DateTime timeStamp){
-		this.timeStamp = new Timestamp(timeStamp.getMillis());
-		systemDateTime = timeStamp;
+	public TimecardEntry(@Assisted Entry entry){
+		this.entry = entry;
+	
 	}
 	
+	public java.sql.Date getTimestampWithSqlDate(){
+		return new java.sql.Date(getTimestamp().getMillis());
+	}
 	
-	public DateTime getTimeStamp(){
-		//NOTE: this hack will go away as soon as I take the time to properly map jodatime
-		if(systemDateTime == null && timeStamp != null){
-			systemDateTime = new DateTime(timeStamp);
-		}
-		
-		return systemDateTime;
+	public java.util.Date getTimestampWithJavaDate(){
+		return new java.util.Date(getTimestamp().getMillis());
+	}
+	
+	public DateTime getTimestamp(){
+		return entry.getTimestamp();
 	}
 	
 	public Long getId(){
-		return id;
+		return entry.getId();
 	}
 	
-	@Transient
+	
 	public boolean isBefore(TimecardEntry that){
-		return getTimeStamp().isBefore(that.getTimeStamp());
+		return getTimestamp().isBefore(that.getTimestamp());
 	}
 	
-	@Transient
+	
 	public boolean isAfter(TimecardEntry that){
-		return getTimeStamp().isAfter(that.getTimeStamp());
+		return getTimestamp().isAfter(that.getTimestamp());
 	}
 	
-	@Transient
+	
 	public boolean isEqual(TimecardEntry that){
-		return getTimeStamp().isEqual(that.getTimeStamp());
+		return getTimestamp().isEqual(that.getTimestamp());
 	}
 	
-	@Transient
+	
 	@Override
 	public long getMillis() {
-		return getTimeStamp().getMillis();
+		return getTimestamp().getMillis();
 	}
 
 
-	@Transient
+	
 	@Override
 	public Chronology getChronology() {
 		return this.getChronology();
 	}
 
-	@Transient
+	
 	@Override
 	public DateTimeZone getZone() {
 		return this.getZone();
 	}
 
-	@Transient
+	
 	@Override
 	public int get(DateTimeFieldType type) {
-		return getTimeStamp().get(type);
+		return getTimestamp().get(type);
 	}
 
-	@Transient
+	
 	@Override
 	public boolean isSupported(DateTimeFieldType field) {
-		return getTimeStamp().isSupported(field);
+		return getTimestamp().isSupported(field);
 	}
 
-	@Transient
+	
 	@Override
 	public Instant toInstant() {
-		return getTimeStamp().toInstant();
+		return getTimestamp().toInstant();
 	}
 
-	@Transient
+	
 	@Override
 	public boolean isEqual(ReadableInstant instant) {
-		return getTimeStamp().isEqual(instant);
+		return getTimestamp().isEqual(instant);
 	}
 
-	@Transient
+	
 	@Override
 	public boolean isAfter(ReadableInstant instant) {
-		return getTimeStamp().isAfter(instant);
+		return getTimestamp().isAfter(instant);
 	}
 
-	@Transient
+	
 	@Override
 	public boolean isBefore(ReadableInstant instant) {
-		return getTimeStamp().isBefore(instant);
+		return getTimestamp().isBefore(instant);
 	}
 
-	@Transient
+	
 	@Override
 	public int compareTo(ReadableInstant instant) {
-		return getTimeStamp().compareTo(instant);
+		return getTimestamp().compareTo(instant);
 	}
 	
-	@Transient
+	
 	@Override
 	public boolean equals(Object object){
 		if(object == this){
@@ -166,10 +141,18 @@ public class TimecardEntry implements ReadableInstant{
 		}
 		return false;
 	}
-	
-	@Transient	
+		
 	@Override
 	public int hashCode(){
-		return getTimeStamp().hashCode();
+		return getTimestamp().hashCode();
+	}
+	
+	@Override
+	public String toString(){
+		return getTimestampWithJavaDate().toString();
+	}
+
+	public Entry getEntry() {
+		return entry;
 	}
 }

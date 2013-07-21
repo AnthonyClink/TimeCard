@@ -1,5 +1,6 @@
 package com.clinkworks.timecard.config;
 
+import com.clinkworks.timecard.api.TimeSegmentService;
 import com.clinkworks.timecard.util.TimecardComponentFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
@@ -8,7 +9,7 @@ public class ConfigBase extends AbstractModule{
 	
 	@Override
 	protected void configure() {
-		
+
 		FactoryModuleBuilder factoryModuleBuilder = new FactoryModuleBuilder();
 		
 		configureFactoryModuleBuilder(factoryModuleBuilder);

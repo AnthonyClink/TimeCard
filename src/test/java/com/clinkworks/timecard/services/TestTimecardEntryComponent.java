@@ -10,9 +10,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.clinkworks.timecard.component.TimecardEntryComponent;
-import com.clinkworks.timecard.component.TestSystemTimeComponent;
 import com.clinkworks.timecard.config.TestCaseConfigBase;
 import com.clinkworks.timecard.domain.TimecardEntry;
+import com.clinkworks.timecard.util.SystemTimeUtil;
 import com.google.common.collect.Lists;
 
 @RunWith(JukitoRunner.class)
@@ -32,29 +32,29 @@ public class TestTimecardEntryComponent{
 		
 		assertNotNull(manualEntry);
 		
-		assertEquals(manualEntry.getTimeStamp(), now);
+		assertEquals(manualEntry.getTimestamp(), now);
 		
 	}
 	
 	@Test
-	public void testEntryContainsSystemTimestamp(TimecardEntryComponent entryComponent, TestSystemTimeComponent timeComponent){
+	public void testEntryContainsSystemTimestamp(TimecardEntryComponent entryComponent, SystemTimeUtil timeComponent){
 		
 		DateTime initalTime = timeComponent.useTestTime().getSystemTime();
 		
 		TimecardEntry entry = entryComponent.createTimecardEntry();
 		
-		assertEquals(initalTime, entry.getTimeStamp());
+		assertEquals(initalTime, entry.getTimestamp());
 		
-		DateTime timeStampTomorrow = timeComponent.addDay();
+		DateTime timeStampTomorrow = timeComponent.addDay().getSystemTime();
 		
 		TimecardEntry entryTomorrow = entryComponent.createTimecardEntry();
 		
-		assertEquals(timeStampTomorrow, entryTomorrow.getTimeStamp());
+		assertEquals(timeStampTomorrow, entryTomorrow.getTimestamp());
 
 	}
 	
 	@Test
-	public void entriesCanCompareThemselves(TimecardEntryComponent entryComponent, TestSystemTimeComponent timeComponent){
+	public void entriesCanCompareThemselves(TimecardEntryComponent entryComponent, SystemTimeUtil timeComponent){
 		
 		DateTime morning = timeComponent.resetClockToJanuaryFirstTwoThousand().useTestTime().getSystemTime();
 		
@@ -85,7 +85,7 @@ public class TestTimecardEntryComponent{
 	}
 	
 	@Test
-	public void entriesCanBeSorted(TimecardEntryComponent entryComponent, TestSystemTimeComponent timeComponent){
+	public void entriesCanBeSorted(TimecardEntryComponent entryComponent, SystemTimeUtil timeComponent){
 		DateTime morning = timeComponent.resetClockToJanuaryFirstTwoThousand().useTestTime().getSystemTime();
 		
 		DateTime noon = morning.plusHours(12);
@@ -96,7 +96,7 @@ public class TestTimecardEntryComponent{
 		TimecardEntry noonEntry = entryComponent.createTimecardEntry(noon);
 		TimecardEntry nightEntry = entryComponent.createTimecardEntry(night);
 		
-		List<TimecardEntry> listToSort = Lists.newArrayList(nightEntry, noonEntry, morningEntry);
+		List<TimecardEntry> listToSort = Lists.newArrayList(noonEntry, nightEntry, morningEntry);
 		
 		entryComponent.sortTimecardEntriesAcending(listToSort);
 		

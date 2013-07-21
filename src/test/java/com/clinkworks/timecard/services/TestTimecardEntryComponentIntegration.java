@@ -14,16 +14,23 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.clinkworks.timecard.api.TimeSegmentService;
 import com.clinkworks.timecard.component.TimecardEntryComponent;
-import com.clinkworks.timecard.component.TestSystemTimeComponent;
 import com.clinkworks.timecard.config.JpaConfig;
 import com.clinkworks.timecard.config.TestCaseConfigBase;
 import com.clinkworks.timecard.domain.TimecardEntry;
+import com.clinkworks.timecard.util.SystemTimeUtil;
 import com.google.common.collect.Lists;
 
 @RunWith(JukitoRunner.class)
 @UseModules({ TestCaseConfigBase.class, JpaConfig.class })
 public class TestTimecardEntryComponentIntegration {
+	
+	@Test
+	public void testSegmentServiceCanPersistEntries(TimeSegmentService segmentService){
+		TimecardEntry entry = (TimecardEntry)segmentService.getTimecardEntry().getEntity();
+		assertNotNull(entry);
+	}
 	
 	@Test
 	public void testEntryServiceCanPersistEntries(TimecardEntryComponent entryService, EntityManager entityManager){
@@ -42,7 +49,8 @@ public class TestTimecardEntryComponentIntegration {
 			
 			assertNotNull(queriedEntry);
 			assertEquals(entry.getId(), queriedEntry.getId());
-			assertTrue(entry.getTimeStamp().isEqual(queriedEntry.getTimeStamp()));
+			
+			assertTrue(entry.getTimestamp().isEqual(queriedEntry.getTimestamp()));
 			
 		}finally{
 			cleanupEntries(entityManager, entriesToRemove);
@@ -50,7 +58,7 @@ public class TestTimecardEntryComponentIntegration {
 	}
 	
 	@Test
-	public void testEntryServiceCanQueryDateRange(EntityManager entityManager, TimecardEntryComponent entryService, TestSystemTimeComponent timeService){
+	public void testEntryServiceCanQueryDateRange(EntityManager entityManager, TimecardEntryComponent entryService, SystemTimeUtil timeService){
 		
 		DateTime startTime = timeService.resetClockToJanuaryFirstTwoThousand().useTestTime().getSystemTime();
 		DateTime endTime = startTime.plusDays(1);
@@ -114,9 +122,9 @@ public class TestTimecardEntryComponentIntegration {
 	}
 	
 	@Test
-	public void testEntrysCanBeDeleted(TimecardEntryComponent entryService, TestSystemTimeComponent timeService){
+	public void testEntrysCanBeDeleted(TimecardEntryComponent entryService, SystemTimeUtil timeService){
 		
-		DateTime timeStamp = timeService.setTestTimeToNow().useTestTime().addYears(5);
+		DateTime timeStamp = timeService.setTestTimeToNow().useTestTime().addYears(5).getSystemTime();
 		
 		DateTime start = timeStamp.minusHours(1);
 		DateTime end = timeStamp.plusHours(1);
@@ -155,8 +163,8 @@ public class TestTimecardEntryComponentIntegration {
 		transaction.begin();
 		
 		for(TimecardEntry entry : entries){
-			if(entityManager.contains(entry)){
-				entityManager.remove(entry);
+			if(entityManager.contains(entry.getEntry())){
+				entityManager.remove(entry.getEntry());
 			}
 		}
 		

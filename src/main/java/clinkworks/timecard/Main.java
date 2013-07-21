@@ -42,6 +42,7 @@ public class Main {
 
         server.setHandler(handler);
         
+        server.start();
 	}
 	
 }
